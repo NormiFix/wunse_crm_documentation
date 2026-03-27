@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wunse CRM — Documentation</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f0f0e;
+  --bg2: #161614;
+  --bg3: #1e1e1b;
+  --bg4: #252520;
+  --bg5: #2e2e28;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --border3: rgba(255,255,255,0.18);
+  --text: #e8e6de;
+  --text2: #a8a59c;
+  --text3: #6b6860;
+  --accent: #c8f060;
+  --accent2: rgba(200,240,96,0.12);
+  --accent3: rgba(200,240,96,0.06);
+  --blue: #5b9cf6;
+  --blue-bg: rgba(91,156,246,0.1);
+  --teal: #2dd4bf;
+  --teal-bg: rgba(45,212,191,0.1);
+  --amber: #f59e0b;
+  --amber-bg: rgba(245,158,11,0.1);
+  --coral: #f87171;
+  --coral-bg: rgba(248,113,113,0.1);
+  --green: #4ade80;
+  --green-bg: rgba(74,222,128,0.1);
+  --purple: #a78bfa;
+  --purple-bg: rgba(167,139,250,0.1);
+  --r: 6px;
+  --r2: 10px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #0a0a09;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* TOP NAV */
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,10,9,0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  height: 52px;
+  padding: 0 2rem;
+  gap: 0;
+}
+.top-nav .brand {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  margin-right: 2.5rem;
+  flex-shrink: 0;
+}
+.top-nav .brand span {
+  color: var(--text3);
+  font-size: 11px;
+  margin-left: 8px;
+}
+.tab-btn {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text3);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 0 18px;
+  height: 52px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.tab-btn:hover { color: var(--text2); }
+.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+.tab-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* PANELS */
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ─── PROMPTS PANEL ─────────────────────────────────── */
+.shell {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: calc(100vh - 52px);
+}
+.sidebar {
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  position: sticky;
+  top: 52px;
+  height: calc(100vh - 52px);
+  overflow-y: auto;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sidebar-logo {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  padding: 0 0.5rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1rem;
+}
+.sidebar-logo span { color: var(--text3); font-size: 10px; display: block; margin-top: 3px; font-weight: 300; }
+.phase-group { margin-bottom: 0.5rem; }
+.phase-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text3);
+  padding: 0.6rem 0.5rem 0.25rem;
+}
+.prompt-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.1s;
+  text-decoration: none;
+}
+.prompt-link:hover { background: var(--bg3); }
+.prompt-link.active { background: var(--accent2); }
+.pnum {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+  min-width: 24px;
+  flex-shrink: 0;
+}
+.prompt-link.active .pnum { color: var(--accent); }
+.pname { font-size: 12px; color: var(--text2); line-height: 1.3; }
+.prompt-link.active .pname { color: var(--text); }
+.pmain {
+  padding: 3rem 3rem 6rem;
+  max-width: 820px;
+}
+.doc-header {
+  padding-bottom: 2rem;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid var(--border2);
+}
+.doc-header .label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text3);
+  margin-bottom: 0.75rem;
+}
+.doc-header h1 {
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+.doc-header p {
+  font-size: 14px;
+  color: var(--text2);
+  max-width: 560px;
+  line-height: 1.7;
+}
+.how-to {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 3rem;
+}
+.how-to h3 {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text3);
+  margin-bottom: 0.75rem;
+}
+.how-to ol {
+  padding-left: 1.25rem;
+  color: var(--text2);
+  font-size: 13px;
+  line-height: 2;
+}
+.how-to ol li strong { color: var(--accent); }
+.phase-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 3.5rem 0 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border2);
+}
+.phase-header:first-of-type { margin-top: 0; }
+.phase-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text3);
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.phase-title { font-size: 18px; font-weight: 600; color: var(--text); }
+.phase-desc { font-size: 13px; color: var(--text3); margin-top: 3px; }
+.prompt-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+}
+.prompt-card-header {
+  padding: 0.875rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+.prompt-card-header:hover { background: var(--bg3); }
+.pcard-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text3);
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 7px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.pcard-title { font-size: 14px; font-weight: 500; color: var(--text); flex: 1; }
+.pcard-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+.tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 1px 7px;
+  border-radius: 3px;
+}
+.tag-supabase { background: var(--teal-bg); color: var(--teal); }
+.tag-ui { background: var(--blue-bg); color: var(--blue); }
+.tag-auth { background: var(--purple-bg); color: var(--purple); }
+.tag-logic { background: var(--amber-bg); color: var(--amber); }
+.tag-reporting { background: var(--coral-bg); color: var(--coral); }
+.tag-integration { background: var(--green-bg); color: var(--green); }
+.pcard-chevron {
+  color: var(--text3);
+  font-size: 12px;
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+  margin-top: 3px;
+}
+.prompt-card.open .pcard-chevron { transform: rotate(180deg); }
+.pcard-body { display: none; }
+.prompt-card.open .pcard-body { display: block; }
+.pcard-notes {
+  padding: 0.875rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg3);
+}
+.pcard-notes-label {
+  font-size: 9px;
+  font-family: 'DM Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text3);
+  margin-bottom: 6px;
+}
+.pcard-notes p {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.pcard-notes p:last-child { margin-bottom: 0; }
+.pcard-notes .warn { color: var(--amber); }
+.prompt-text {
+  padding: 1.25rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 12.5px;
+  color: var(--text);
+  line-height: 1.9;
+  white-space: pre-wrap;
+  background: var(--bg);
+  border-radius: 0 0 10px 10px;
+}
+.copy-btn {
+  float: right;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: all 0.1s;
+}
+.copy-btn:hover { background: var(--bg4); color: var(--accent); border-color: var(--accent); }
+.p-callout {
+  border-left: 2px solid var(--accent);
+  padding: 0.875rem 1rem;
+  margin: 1.5rem 0;
+  background: var(--accent2);
+  border-radius: 0 6px 6px 0;
+}
+.p-callout p { font-size: 13px; color: var(--text2); margin: 0; }
+.p-callout strong { color: var(--accent); }
+.phase-intro {
+  font-size: 13.5px;
+  color: var(--text2);
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+  padding: 0.875rem 1.25rem;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  border-left: 2px solid var(--border2);
+}
+
+/* ─── POSTMARK PANEL ────────────────────────────────── */
+.pm-wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 3rem 2rem 6rem;
+}
+.pm-page-title {
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.4rem;
+}
+.pm-page-sub {
+  font-size: 13px;
+  color: var(--text3);
+  font-family: 'DM Mono', monospace;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border2);
+}
+.pm-section { margin-bottom: 2.5rem; }
+.pm-h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.pm-p {
+  font-size: 13.5px;
+  color: var(--text2);
+  line-height: 1.75;
+  margin-bottom: 0.875rem;
+}
+.pm-ul {
+  padding-left: 1.25rem;
+  color: var(--text2);
+  font-size: 13.5px;
+  line-height: 1.9;
+  margin-bottom: 0.875rem;
+}
+.pm-code {
+  display: block;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  padding: 0.6rem 1rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--accent);
+  margin: 0.5rem 0 1rem;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.pm-callout {
+  border-left: 2px solid var(--blue);
+  background: var(--blue-bg);
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+  font-size: 13px;
+  color: var(--blue);
+  line-height: 1.6;
+}
+.pm-callout.warn { border-color: var(--amber); background: var(--amber-bg); color: var(--amber); }
+.pm-callout.success { border-color: var(--green); background: var(--green-bg); color: var(--green); }
+.pm-ref {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: var(--r2);
+  overflow: hidden;
+  margin: 0.75rem 0 1.25rem;
+}
+.pm-ref-header {
+  padding: 0.5rem 1rem;
+  background: var(--bg3);
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text3);
+  border-bottom: 1px solid var(--border);
+}
+.pm-ref-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 12.5px;
+}
+.pm-ref-row:last-child { border-bottom: none; }
+.pm-ref-key { color: var(--text3); }
+.pm-ref-val { font-family: 'DM Mono', monospace; font-size: 11.5px; color: var(--text); }
+.pm-flow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  padding: 1.25rem;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: var(--r2);
+  margin: 0.75rem 0 1.25rem;
+}
+.pm-flow-node {
+  flex-shrink: 0;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  padding: 0.5rem 0.875rem;
+  font-size: 11.5px;
+  font-weight: 500;
+  text-align: center;
+  min-width: 90px;
+  color: var(--text);
+}
+.pm-flow-node small {
+  display: block;
+  font-size: 10px;
+  color: var(--text3);
+  font-weight: 400;
+  margin-top: 2px;
+  font-family: 'DM Mono', monospace;
+}
+.pm-flow-arrow { padding: 0 8px; color: var(--text3); font-size: 14px; flex-shrink: 0; }
+.pm-steps { list-style: none; padding: 0; counter-reset: pmsteps; margin: 0.75rem 0 1.25rem; }
+.pm-steps li {
+  counter-increment: pmsteps;
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 10px;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+  align-items: start;
+}
+.pm-steps li:last-child { border-bottom: none; }
+.pm-steps li::before {
+  content: counter(pmsteps);
+  width: 22px; height: 22px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+  color: var(--text3);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="brand">Wunse CRM <span>documentation</span></div>
+  <button class="tab-btn active" onclick="showTab('prompts', this)">
+    <span class="tab-dot" style="background:var(--accent)"></span>
+    Build Prompts
+  </button>
+  <button class="tab-btn" onclick="showTab('postmark', this)">
+    <span class="tab-dot" style="background:var(--blue)"></span>
+    Postmark Setup
+  </button>
+</nav>
+
+<!-- ═══════════════════════════════ PROMPTS PANEL -->
+<div class="panel active" id="panel-prompts">
+<div class="shell">
+  <div class="sidebar">
+    <div class="sidebar-logo">Lovable Build Prompts<span>ordered sequence · 24 prompts</span></div>
+    <div class="phase-group">
+      <div class="phase-label">Phase 1 — Foundation</div>
+      <a class="prompt-link active" href="#p01"><span class="pnum">01</span><span class="pname">Project setup &amp; design system</span></a>
+      <a class="prompt-link" href="#p02"><span class="pnum">02</span><span class="pname">Supabase schema — core tables</span></a>
+      <a class="prompt-link" href="#p03"><span class="pnum">03</span><span class="pname">Auth — login, signup, users</span></a>
+      <a class="prompt-link" href="#p04"><span class="pnum">04</span><span class="pname">App shell &amp; navigation</span></a>
+      <a class="prompt-link" href="#p05"><span class="pnum">05</span><span class="pname">Managed values system</span></a>
+    </div>
+    <div class="phase-group">
+      <div class="phase-label">Phase 2 — Core Records</div>
+      <a class="prompt-link" href="#p06"><span class="pnum">06</span><span class="pname">Company records — CRUD</span></a>
+      <a class="prompt-link" href="#p07"><span class="pnum">07</span><span class="pname">Contact records — CRUD + BCC</span></a>
+      <a class="prompt-link" href="#p08"><span class="pnum">08</span><span class="pname">Leads — CRUD + Kanban</span></a>
+      <a class="prompt-link" href="#p09"><span class="pnum">09</span><span class="pname">Products &amp; line items</span></a>
+      <a class="prompt-link" href="#p10"><span class="pnum">10</span><span class="pname">CSV import</span></a>
+    </div>
+    <div class="phase-group">
+      <div class="phase-label">Phase 3 — Commercial Layer</div>
+      <a class="prompt-link" href="#p11"><span class="pnum">11</span><span class="pname">Stage gates config</span></a>
+      <a class="prompt-link" href="#p12"><span class="pnum">12</span><span class="pname">Lead → Opp conversion modal</span></a>
+      <a class="prompt-link" href="#p13"><span class="pnum">13</span><span class="pname">Opportunity records + Kanban</span></a>
+      <a class="prompt-link" href="#p14"><span class="pnum">14</span><span class="pname">Activity logging system</span></a>
+      <a class="prompt-link" href="#p15"><span class="pnum">15</span><span class="pname">BCC email capture webhook</span></a>
+      <a class="prompt-link" href="#p16"><span class="pnum">16</span><span class="pname">Customer records</span></a>
+    </div>
+    <div class="phase-group">
+      <div class="phase-label">Phase 4 — Rev Ops</div>
+      <a class="prompt-link" href="#p17"><span class="pnum">17</span><span class="pname">Pipeline velocity engine</span></a>
+      <a class="prompt-link" href="#p18"><span class="pnum">18</span><span class="pname">Qualified pipeline logic</span></a>
+      <a class="prompt-link" href="#p19"><span class="pnum">19</span><span class="pname">Overview dashboard</span></a>
+      <a class="prompt-link" href="#p20"><span class="pnum">20</span><span class="pname">Reporting suite</span></a>
+      <a class="prompt-link" href="#p21"><span class="pnum">21</span><span class="pname">Velocity scenario planner</span></a>
+    </div>
+    <div class="phase-group">
+      <div class="phase-label">Phase 5 — Integrations</div>
+      <a class="prompt-link" href="#p22"><span class="pnum">22</span><span class="pname">Xero / cashflow export</span></a>
+      <a class="prompt-link" href="#p23"><span class="pnum">23</span><span class="pname">Sybill meeting notes</span></a>
+      <a class="prompt-link" href="#p24"><span class="pnum">24</span><span class="pname">Settings &amp; admin panel</span></a>
+    </div>
+  </div>
+
+  <div class="pmain">
+    <div class="doc-header">
+      <div class="label">Wunse CRM · Lovable Build Sequence</div>
+      <h1>24 Prompts.<br>Build order matters.</h1>
+      <p>Each prompt is self-contained and builds on the previous. Run them in order. Never skip a phase — later prompts reference tables, components, and hooks that earlier prompts establish.</p>
+    </div>
+
+    <div class="how-to">
+      <h3>How to use these prompts</h3>
+      <ol>
+        <li><strong>One prompt per Lovable session.</strong> Don't combine them.</li>
+        <li><strong>Always connect Supabase before starting.</strong> Prompts 02+ assume the connection exists.</li>
+        <li><strong>After each prompt:</strong> test the feature, fix any Lovable errors, then move to the next.</li>
+        <li><strong>Copy the full prompt text.</strong> The specificity is intentional — vague prompts produce generic output.</li>
+        <li><strong>For styling:</strong> the design system is set in Prompt 01. Every subsequent prompt references it.</li>
+      </ol>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="phase-header"><span class="phase-num">Phase 1</span><div><div class="phase-title">Foundation</div><div class="phase-desc">Project setup, database schema, authentication, app shell</div></div></div>
+    <div class="phase-intro">Start here. This phase produces nothing the user can interact with commercially — it produces the bones. Schema, auth, navigation, and the shared component library that every other prompt builds on.</div>
+
+    <div class="prompt-card" id="p01">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">01</span><div style="flex:1;"><div class="pcard-title">Project setup &amp; design system</div><div class="pcard-tags"><span class="tag tag-ui">UI</span><span class="tag tag-ui">Design System</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>This is the first prompt. It establishes the visual language for the entire application. Dark theme, monospace accents, lime green as the primary action colour.</p><p class="warn">Do not add Tailwind animations or gradients — we want flat, clean, fast rendering.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Create a new React + TypeScript application called "Wunse CRM". Connect it to Supabase.
+
+Set up the following design system as CSS variables and Tailwind config:
+
+COLOUR PALETTE:
+- Background primary: #0f0f0e
+- Background secondary: #161614
+- Background tertiary: #1e1e1b
+- Background elevated: #252520
+- Border default: rgba(255,255,255,0.07)
+- Border emphasis: rgba(255,255,255,0.13)
+- Text primary: #e8e6de
+- Text secondary: #a8a59c
+- Text muted: #6b6860
+- Accent (primary action): #c8f060
+- Accent subtle: rgba(200,240,96,0.10)
+- Blue: #5b9cf6 / Blue bg: rgba(91,156,246,0.10)
+- Teal: #2dd4bf / Teal bg: rgba(45,212,191,0.10)
+- Amber: #f59e0b / Amber bg: rgba(245,158,11,0.10)
+- Coral: #f87171 / Coral bg: rgba(248,113,113,0.10)
+- Green: #4ade80 / Green bg: rgba(74,222,128,0.10)
+- Purple: #a78bfa / Purple bg: rgba(167,139,250,0.10)
+
+TYPOGRAPHY:
+- Body font: DM Sans (Google Fonts)
+- Mono font: DM Mono (Google Fonts)
+
+SHARED COMPONENTS to create (in /src/components/ui/):
+1. Badge — variants: blue, teal, amber, coral, green, purple, gray, accent
+2. Button — variants: primary (accent bg, dark text), ghost (transparent, border), danger
+3. Avatar — circular, shows 2-letter initials, colour variants matching badge colours
+4. Card — bg-secondary, border-default, border-radius 10px, overflow hidden
+5. DataTable — header row with DM Mono uppercase labels, rows with hover state
+6. StatCard — metric card with muted label + large value + delta badge
+7. PageHeader — title, subtitle (DM Mono), right-side actions slot
+8. FilterChip — pill-style toggle filter
+9. SegmentedTabs — 2-4 tab toggle
+10. ManagedTextInput — text input that shows saved values as autocomplete suggestions, saves new values on blur. Accepts a "category" prop to scope suggestions. Store suggestions in Supabase table "managed_values" (columns: id, category, value, is_archived, created_at).
+
+Do not create any pages yet — only the design system and shared components.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card" id="p02">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">02</span><div style="flex:1;"><div class="pcard-title">Supabase schema — all core tables</div><div class="pcard-tags"><span class="tag tag-supabase">Supabase</span><span class="tag tag-supabase">Schema</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>Create all tables upfront. This prevents needing to alter schema mid-build which breaks foreign keys. Enable Row Level Security on all tables but leave policies permissive for now.</p><p class="warn">Run this as a Supabase migration, not just raw SQL. Ask Lovable to use the Supabase migration system.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Create a Supabase migration that sets up all database tables for the CRM. Enable RLS on all tables. Create the following schema:
+
+TABLE: users (extends auth.users)
+- id uuid references auth.users primary key
+- full_name text
+- email text
+- bcc_address text unique (format: crm-u-{short_uuid}&#64;mail.wunse.com.au)
+- role text default 'member' (values: admin, manager, member)
+- avatar_color text
+- created_at timestamptz default now()
+
+TABLE: managed_values
+- id uuid primary key default gen_random_uuid()
+- category text not null (values: contact_source, company_source, lead_source, pipeline_source, industry, title, activity_outcome, billing_schedule, pipeline_type)
+- value text not null
+- is_archived boolean default false
+- created_by uuid references users
+- created_at timestamptz default now()
+- unique(category, value)
+
+TABLE: companies
+- id uuid primary key default gen_random_uuid()
+- name text not null
+- parent_company_id uuid references companies(id)
+- website text
+- industry text
+- company_source text
+- notes text
+- owner_id uuid references users
+- created_at timestamptz default now()
+- updated_at timestamptz default now()
+
+TABLE: contacts
+- id uuid primary key default gen_random_uuid()
+- company_id uuid references companies not null
+- full_name text not null
+- email text
+- phone text
+- title text
+- linkedin_url text
+- contact_source text
+- bcc_address text unique
+- notes text
+- owner_id uuid references users
+- created_at timestamptz default now()
+- updated_at timestamptz default now()
+
+TABLE: leads
+- id uuid primary key default gen_random_uuid()
+- company_id uuid references companies
+- contact_id uuid references contacts
+- title text not null
+- lead_source text
+- stage text not null default 'new'
+- pipeline_type text
+- notes text
+- owner_id uuid references users
+- converted_at timestamptz
+- created_at timestamptz default now()
+- updated_at timestamptz default now()
+
+TABLE: stage_gates
+- id uuid primary key default gen_random_uuid()
+- pipeline_type text not null
+- stage_number int not null
+- stage_name text not null
+- gate_text text not null
+- is_required boolean default false
+- sort_order int not null
+- created_at timestamptz default now()
+
+TABLE: products
+- id uuid primary key default gen_random_uuid()
+- name text not null
+- product_type text not null
+- payment_type text not null
+- unit_price numeric
+- currency text default 'AUD'
+- term_months int
+- billing_schedule text
+- billing_start text
+- cashflow_export_tag text
+- is_active boolean default true
+- created_by uuid references users
+- created_at timestamptz default now()
+
+TABLE: opportunities
+- id uuid primary key default gen_random_uuid()
+- name text not null
+- company_id uuid references companies
+- primary_contact_id uuid references contacts
+- lead_id uuid references leads
+- stage text not null default 'discovery'
+- pipeline_type text not null
+- pipeline_source text
+- lead_source text
+- close_date date
+- loss_reason text
+- is_qp boolean default false
+- owner_id uuid references users
+- created_at timestamptz default now()
+- updated_at timestamptz default now()
+
+TABLE: opportunity_products
+- id uuid primary key default gen_random_uuid()
+- opportunity_id uuid references opportunities not null
+- product_id uuid references products
+- product_name text not null
+- product_type text not null
+- payment_type text not null
+- quantity numeric default 1
+- unit_price numeric not null
+- price_override numeric
+- billing_schedule text
+- arr_value numeric generated always as (case when payment_type = 'mrr' then coalesce(price_override, unit_price) * 12 when payment_type = 'arr' then coalesce(price_override, unit_price) else 0 end) stored
+- created_at timestamptz default now()
+
+TABLE: customers
+- id uuid primary key default gen_random_uuid()
+- opportunity_id uuid references opportunities
+- company_id uuid references companies
+- primary_contact_id uuid references contacts
+- health_score int default 5
+- status text default 'active'
+- owner_id uuid references users
+- created_at timestamptz default now()
+- updated_at timestamptz default now()
+
+TABLE: activities
+- id uuid primary key default gen_random_uuid()
+- activity_type text not null
+- direction text
+- subject text
+- body text
+- outcome text
+- activity_date timestamptz not null default now()
+- contact_id uuid references contacts
+- company_id uuid references companies
+- lead_id uuid references leads
+- opportunity_id uuid references opportunities
+- customer_id uuid references customers
+- logged_by uuid references users
+- is_bcc_captured boolean default false
+- created_at timestamptz default now()
+
+Seed stage_gates for pipeline_type = 'new_business' with 5 stages: Discovery, Qualification (budget required), Solution (demo required), Proposal (SOW sent required), Negotiation.
+
+Seed 10 default managed_values for each category: contact_source, lead_source, pipeline_source with realistic B2B values.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card" id="p03">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">03</span><div style="flex:1;"><div class="pcard-title">Authentication — login, signup, user profile</div><div class="pcard-tags"><span class="tag tag-auth">Auth</span><span class="tag tag-supabase">Supabase</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>Use Supabase Auth. On first login, create a row in the users table and generate a unique BCC address for the user. Protected routes redirect to /login if unauthenticated.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Build authentication using Supabase Auth.
+
+PAGES:
+1. /login — email + password login. Dark design system. Accent colour (#c8f060) for CTA. Show "Wunse CRM" as app name in DM Mono font.
+2. /signup — invite-only. Fields: full name, email (pre-filled), password. On completion, insert row into public.users with full_name, email, role='member', bcc_address generated as 'crm-u-' + first 8 chars of user UUID + '&#64;mail.wunse.com.au'.
+
+AUTH LOGIC:
+- AuthProvider context exposing: user, session, userProfile, signIn, signOut, isLoading
+- On every login, check if public.users row exists — create if not
+- RequireAuth component redirects to /login if no session
+
+RLS POLICIES:
+- All tables: authenticated users can SELECT all rows
+- All tables: authenticated users can INSERT rows they own
+- Users can UPDATE/DELETE rows where owner_id = auth.uid() or role is admin/manager
+
+USER PROFILE:
+- Sidebar shows avatar (initials), full_name, role
+- Settings link navigates to /settings/profile
+- Profile page shows BCC address: 'crm-u-xxxxx&#64;mail.wunse.com.au' with copy button</div>
+      </div>
+    </div>
+
+    <div class="prompt-card" id="p04">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">04</span><div style="flex:1;"><div class="pcard-title">App shell, sidebar navigation &amp; routing</div><div class="pcard-tags"><span class="tag tag-ui">UI</span><span class="tag tag-ui">Routing</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>Build the persistent shell. All pages render inside this shell. Sidebar always visible on desktop, collapses on mobile. All routes are stub pages for now.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Build the main application shell with persistent sidebar navigation.
+
+LAYOUT: Fixed left sidebar 220px, collapsible on mobile. Main content fills remaining space.
+
+SIDEBAR: "Wunse CRM" logo in DM Mono accent. Navigation groups:
+
+Commercial: Overview (/), Pipeline (/pipeline) with open opp count badge, Leads (/leads) with open lead count badge
+
+Records: Companies (/companies), Contacts (/contacts), Customers (/customers)
+
+Intelligence: Reports (/reports), Activities (/activities), Products (/products)
+
+Bottom: user pill (avatar, name, role) with Settings link.
+
+Active state: bg-accent-subtle, text-accent.
+
+ROUTING: React Router with stub pages for all routes above plus /settings.
+
+PAGE HEADER PATTERN: Every page uses PageHeader component, sticky at top with bottom border.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card" id="p05">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">05</span><div style="flex:1;"><div class="pcard-title">Managed values system &amp; Settings foundation</div><div class="pcard-tags"><span class="tag tag-supabase">Supabase</span><span class="tag tag-logic">Logic</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>The managed values system underpins all source attribution fields. Build it before any record creation prompts.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Build the managed values system and Settings page at /settings with tabs:
+
+1. "Source Values" — table of all managed_values grouped by category. Allow rename, archive, restore, add new.
+
+2. "Pipeline Stages" — stage_gates per pipeline_type. Edit gate text, toggle required/advisory, reorder, add/delete stages.
+
+3. "Users" — list all users with role, email, BCC address. Admin can change roles. "Invite User" button uses Supabase invite flow.
+
+4. "Profile" — current user name, email, BCC address with copy button, password change.
+
+5. "Email Capture" — webhook URL display, test button, last 50 captured emails log.
+
+MANAGED TEXT INPUT (fully implement from P01 scaffold):
+- Fetches suggestions from managed_values by category prop on focus
+- Shows as autocomplete dropdown
+- Saves new values on blur if not already in list
+- Admins can archive values inline</div>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase-header"><span class="phase-num">Phase 2</span><div><div class="phase-title">Core Records</div><div class="phase-desc">Companies, Contacts, Leads, Products — full CRUD + list views</div></div></div>
+    <div class="phase-intro">Build each record type in order. Companies first — they're the parent. Contacts require companies. Leads require both.</div>
+
+    <div class="prompt-card" id="p06">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">06</span><div style="flex:1;"><div class="pcard-title">Company records — list, create, record view</div><div class="pcard-tags"><span class="tag tag-ui">UI</span><span class="tag tag-supabase">Supabase</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>The first real record type. Establishes the two-panel record layout pattern used by all records. Get this right and the rest follow the same shape.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Build the Companies module at /companies.
+
+LIST VIEW: PageHeader with count + "New Company" button. Filter bar: search, Owner, Industry, Date range. DataTable: Name, Industry, Source, Owner, Contacts count, Open Opps count + ACV, Created.
+
+CREATE FORM (slide-in panel): Company Name (required), Website, Industry (ManagedTextInput), Company Source (ManagedTextInput), Parent Company (searchable select), Notes, Owner.
+
+RECORD VIEW (/companies/:id) — two-panel layout:
+LEFT: Record hero (initials avatar, name, industry, badges). Actions: Log Activity, Edit, + Create Lead. Sections: Company Details (field grid), Associations (Contacts, Leads, Opportunities — collapsible panels each showing name + stage/status + value).
+RIGHT: Activity timeline — chronological, type icon, label, body preview, logged_by + date. Empty state included.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card" id="p07">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">07</span><div style="flex:1;"><div class="pcard-title">Contact records — list, create, BCC address, record view</div><div class="pcard-tags"><span class="tag tag-ui">UI</span><span class="tag tag-supabase">Supabase</span><span class="tag tag-integration">BCC</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>Same two-panel pattern as Companies. Key new element: BCC address generated on creation, displayed prominently with copy button.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Build the Contacts module at /contacts. Follow same layout pattern as Companies.
+
+LIST VIEW: DataTable — Full Name (avatar), Company, Title, Email, Contact Source, Owner, Created.
+
+CREATE FORM: Full Name (required), Company (required, searchable), Title (ManagedTextInput), Email, Phone, LinkedIn URL, Contact Source (ManagedTextInput), Owner. On save: auto-generate bcc_address as 'crm-c-' + first 8 chars of contact UUID + '&#64;mail.wunse.com.au'.
+
+RECORD VIEW (/contacts/:id):
+LEFT: Hero (teal avatar, name, title + company link). Badges: source, owner. Actions: Log Activity, Edit, + Create Lead. Sections: Contact Details (email, phone, linkedin, title, source, owner). BCC Email Capture box: styled info block showing bcc_address in DM Mono accent with Copy button and helper text. Related Records: Leads, Opportunities panels.
+RIGHT: Activity timeline.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card" id="p08">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">08</span><div style="flex:1;"><div class="pcard-title">Leads — CRUD, list view, Kanban</div><div class="pcard-tags"><span class="tag tag-ui">UI</span><span class="tag tag-logic">Kanban</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>Leads have both list and Kanban views. Kanban is default. Drag-and-drop updates stage in Supabase.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Build the Leads module at /leads with Kanban (default) and list views.
+
+KANBAN: Five columns: New, Contacted, Nurturing, Qualified, Disqualified. Cards show: title, company + industry, lead_source badge, days-in-stage badge (green &lt;7d, amber 7-21d, coral &gt;21d), owner avatar. Drag-and-drop via @dnd-kit/core updates stage in Supabase. Qualified column cards show "Convert to Opportunity →" button on hover.
+
+LIST VIEW: DataTable — Title, Company, Contact, Source, Stage, Owner, Created, Days open.
+
+CREATE FORM: Title (required), Company (required), Contact (filters to company's contacts), Lead Source (ManagedTextInput), Pipeline Type (ManagedTextInput), Stage (select, default 'new'), Notes, Owner.
+
+RECORD VIEW (/leads/:id): Same two-panel layout. "Convert to Opportunity" button in page actions (wired up in P12).</div>
+      </div>
+    </div>
+
+    <div class="prompt-card" id="p09">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">09</span><div style="flex:1;"><div class="pcard-title">Products — catalogue, create, line item component</div><div class="pcard-tags"><span class="tag tag-ui">UI</span><span class="tag tag-logic">Logic</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>Products work in two contexts: standalone catalogue and inline on Opportunities. Build the shared LineItemEditor component here so it's ready for P13.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Build the Products module at /products and a reusable ProductLineItems component.
+
+PRODUCTS LIST: DataTable — Name, Type badge, Payment Type badge, Unit Price, Currency, Term, Active toggle. "+ New Product" opens create form.
+
+PRODUCT FORM: Name (required), Product Type (Software License / Pilot / Professional Services / Managed Service), Payment Type (ARR / MRR / One-Time / Milestone / T&amp;M / Hybrid), Unit Price + Currency, Term Months (recurring only), Billing Schedule (ManagedTextInput), Billing Start (select), Cashflow Export Tag (ManagedTextInput).
+
+PRODUCT LINE ITEMS COMPONENT (props: opportunityId, editable):
+- Table of opportunity_products for the given opp
+- Columns: name, type badge, price (editable if editable=true), billing schedule, ARR value (DM Mono accent), delete
+- Footer: Add Product (searchable from catalogue), Create New Product (inline form), TCV + ACV totals
+- Recalculates totals immediately on any change</div>
+      </div>
+    </div>
+
+    <div class="prompt-card" id="p10">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">10</span><div style="flex:1;"><div class="pcard-title">CSV import — Companies and Contacts</div><div class="pcard-tags"><span class="tag tag-logic">Logic</span><span class="tag tag-ui">UI</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>Basic import for seeding from existing data. Upload, map columns, preview, import. No dedup logic required yet.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Build CSV import at /import accessible from Companies and Contacts list pages via an "Import" button.
+
+FLOW:
+Step 1 — Upload: CSV drop zone, parse with Papa Parse, show row count.
+Step 2 — Map Columns: show first 3 rows as preview, dropdown to map each CSV column to a CRM field. Required fields must be mapped.
+Step 3 — Preview: first 10 rows as they'll be imported. Warning count for rows missing required fields.
+Step 4 — Import: bulk insert to Supabase, progress indicator, summary: X created / Y skipped / Z errors.
+
+For Contacts import: if company_name column exists but no matching company, create company automatically.
+
+Download template CSV links for Companies and Contacts.</div>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase-header"><span class="phase-num">Phase 3</span><div><div class="phase-title">Commercial Layer</div><div class="phase-desc">Pipeline, stage gates, conversion, activities, email capture</div></div></div>
+    <div class="phase-intro">Build stage gates before the conversion modal, and the conversion modal before the opportunity record. Sequence is critical here.</div>
+
+    <div class="prompt-card" id="p11">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">11</span><div style="flex:1;"><div class="pcard-title">Stage gate configuration UI</div><div class="pcard-tags"><span class="tag tag-ui">UI</span><span class="tag tag-supabase">Supabase</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>Fully implement the Pipeline Stages settings tab so the conversion modal in P12 reads live gate data.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Fully implement the Pipeline Stages tab in Settings (/settings/pipeline).
+
+UI: Pipeline type selector (tabs). Per pipeline type: stages ordered by sort_order, each as a card with stage name (editable inline), list of gate_text entries each with: required/advisory toggle, editable gate text, delete button. "+ Add Gate" within each stage. Drag-to-reorder stages. "+ Add Stage" at bottom.
+
+All edits save to Supabase immediately (optimistic update + debounce for text).
+
+Allow creating new pipeline types — copies default stage structure from new_business as starting point.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card" id="p12">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">12</span><div style="flex:1;"><div class="pcard-title">Lead → Opportunity conversion modal</div><div class="pcard-tags"><span class="tag tag-ui">UI</span><span class="tag tag-logic">Logic</span><span class="tag tag-supabase">Supabase</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>The most important UX flow in the CRM. The stage gates checklist, pipeline source capture, and product line items all live here.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Build the Lead to Opportunity conversion flow at /leads/:id/convert.
+
+STEP 1 — Stage Gate Review: Fetch stage_gates for stage 1 of selected pipeline type. Render each gate as checklist — checkbox, gate_text, Required (coral) or Advisory (amber) tag. Required gates must all be checked before Next is enabled. Show "(X required gate unchecked)" on disabled Next button.
+
+STEP 2 — Conversion Details: Pipeline Source (required, ManagedTextInput), Pipeline Type (required, select), Expected Close Date (required), Opportunity Name (required, auto-suggest "[Company] — [Lead Title]"), Primary Contact (pre-filled), Record Owner (pre-filled).
+
+STEP 3 — Products: ProductLineItems component in editable mode. Header note: "Add products now or later."
+
+STEP 4 — Confirm: Summary of all data. "Complete Conversion" button.
+
+ON CONVERSION:
+1. Create opportunity record
+2. Update lead stage to 'converted', set converted_at
+3. Create opportunity_products line items
+4. Copy lead activities to also reference new opportunity_id
+5. Navigate to new opportunity record
+6. Toast: "Lead converted — Opportunity created"</div>
+      </div>
+    </div>
+
+    <div class="prompt-card" id="p13">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">13</span><div style="flex:1;"><div class="pcard-title">Opportunity records — Kanban, record view, stage progression</div><div class="pcard-tags"><span class="tag tag-ui">UI</span><span class="tag tag-logic">Kanban</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>The Pipeline Kanban is the primary commercial view. The stage strip summary bar above the Kanban is the at-a-glance view. QP flags from is_qp field shown but logic comes in P18.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Build the Pipeline module at /pipeline with Kanban view and opportunity record view.
+
+PIPELINE KANBAN: Pipeline type segmented tabs (New Business / Expansion / All). Stage strip above board: one cell per stage showing name, count, ACV sum. Clicking a cell filters board.
+
+KANBAN BOARD: One column per stage from stage_gates config. QP threshold stage column has accent top border. Cards show: name, company, QP badge if is_qp=true, ACV (accent DM Mono), close date, days-in-stage badge (green &lt;14d, amber 14-30d, coral &gt;30d), owner avatar. Drag-and-drop — forward drag shows gate checklist modal, backward drag is frictionless. Closed Won drag creates Customer record.
+
+OPPORTUNITY RECORD (/pipeline/:id): Summary bar — Stage, ACV (large accent), Close Date, Days in Stage, QP Status. Two-panel layout. LEFT: details, ProductLineItems (editable), related records. RIGHT: activity timeline. "Move Stage" and "Close Won" buttons in page actions.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card" id="p14">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">14</span><div style="flex:1;"><div class="pcard-title">Activity logging system</div><div class="pcard-tags"><span class="tag tag-ui">UI</span><span class="tag tag-supabase">Supabase</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>Activity logging is the most-used feature. Global modal accessible from every record. Build it once, use it everywhere.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Build the activity logging system.
+
+ACTIVITY LOG MODAL (global, triggered from any record):
+Fields: Activity Type (icon grid — Email, Call, SMS, Online Meeting, WhatsApp, LinkedIn, Meta, Note), Direction (Inbound/Outbound for applicable types), Date &amp; Time (default now), Subject (required for Email), Body/Notes (required), Outcome (ManagedTextInput, category='activity_outcome'), Associated Contact (searchable, pre-filled from context), Associated Opportunity (searchable, pre-filled from context).
+
+Pre-fill and hide association fields when opened from a specific record.
+
+ACTIVITY TIMELINE COMPONENT (used on all record types):
+Reverse chronological. Each item: type icon circle, direction badge, subject, body preview (2 lines expandable), logged_by + formatted date. Group by date with sticky headers (Today, Yesterday, March 18...). Filter chips by activity type above timeline.
+
+ACTIVITIES PAGE (/activities): DataTable — Type, Direction, Subject, Contact, Company, Opportunity, Outcome, Logged By, Date. Filterable by type, direction, owner, date range.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card" id="p15">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">15</span><div style="flex:1;"><div class="pcard-title">BCC email capture — inbound webhook</div><div class="pcard-tags"><span class="tag tag-integration">Integration</span><span class="tag tag-supabase">Supabase</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>Supabase Edge Function receives Postmark inbound payloads. Auth uses URL token param (not headers — Postmark does not support custom headers). See Postmark Setup tab for full infrastructure details.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Build a Supabase Edge Function for BCC email capture.
+
+EDGE FUNCTION: supabase/functions/bcc-email-capture/index.ts
+- Public endpoint (no JWT verification)
+- Auth: read token from URL query param ?token=... Compare against BCC_WEBHOOK_SECRET env var. Also accept valid Supabase JWT in Authorization header (for test button)
+- Parse Postmark inbound JSON: To, Cc, Bcc, From, Subject, TextBody/HtmlBody, Date
+- Scan all recipient addresses against users.bcc_address to find CRM user
+- Match From email against contacts.email to resolve contact and company
+- Insert activity: type='email', direction='outbound', subject, body, is_bcc_captured=true, logged_by, contact_id, company_id. Link to active lead or opportunity if one exists for that contact.
+- Return 200 with match status. Return 200 with no_match if no BCC match (Postmark requires 200).
+- Include CORS headers and OPTIONS preflight handler.
+- Use createClient with SUPABASE_SERVICE_ROLE_KEY to bypass RLS.
+
+SETTINGS EMAIL CAPTURE TAB:
+- Display webhook URL: https://{project_ref}.supabase.co/functions/v1/bcc-email-capture?token=YOUR_SECRET
+- Test button uses supabase.functions.invoke() (auto-attaches JWT, no token needed)
+- Capture log: query activities where is_bcc_captured=true, last 50, show subject / matched user / contact / timestamp</div>
+      </div>
+    </div>
+
+    <div class="prompt-card" id="p16">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">16</span><div style="flex:1;"><div class="pcard-title">Customer records</div><div class="pcard-tags"><span class="tag tag-ui">UI</span><span class="tag tag-supabase">Supabase</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>Customer records auto-create from Closed Won opportunities. Keep it simple — health score is manual for now.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Build the Customers module at /customers.
+
+AUTO-CREATION: When opportunity moves to Closed Won, automatically create Customer record with opportunity_id, company_id, primary_contact_id, status='active', health_score=5.
+
+LIST VIEW: DataTable — Company, Primary Contact, Health Score (visual bar), Status badge, Owner, Customer Since. Filter by status, owner, health score range.
+
+RECORD VIEW (/customers/:id): Two-panel layout. LEFT: company, primary contact, health score (1-10 slider — green 7-10, amber 4-6, coral 1-3), status (editable), linked opportunity (ACV + close date), Revenue Summary (products from opportunity_products read-only). RIGHT: activity timeline.
+
+Status updates (active/at-risk/churned) require a reason note.</div>
+      </div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="phase-header"><span class="phase-num">Phase 4</span><div><div class="phase-title">Rev Ops Intelligence</div><div class="phase-desc">Pipeline velocity, qualified pipeline, dashboard, reporting</div></div></div>
+    <div class="phase-intro">Don't build this phase until Phase 3 is complete and you have real data — the velocity calculations need actual pipeline records to be meaningful.</div>
+
+    <div class="prompt-card" id="p17">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">17</span><div style="flex:1;"><div class="pcard-title">Pipeline velocity calculation engine</div><div class="pcard-tags"><span class="tag tag-supabase">Supabase</span><span class="tag tag-logic">Logic</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>Build as a Supabase Edge Function queryable from the frontend. All four inputs calculated from real data. ACV uses ARR only — never mix one-time fees into velocity ACV.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Create a Supabase Edge Function to calculate Pipeline Velocity metrics.
+
+EDGE FUNCTION: /functions/v1/pipeline-velocity
+Accepts: pipeline_type, period_start, period_end, compare_period_start, compare_period_end
+
+CALCULATE:
+1. QO: COUNT opportunities that entered the QP threshold stage (default 'solution') during the period. Track via stage_history table: (id, opportunity_id, from_stage, to_stage, changed_at, changed_by). Create a trigger: whenever opportunity stage changes, INSERT to stage_history.
+
+2. WR: Won / (Won + Lost) for deals that reached 'proposal' or beyond in period. Return null with insufficient_data flag if denominator &lt; 5.
+
+3. ACV: Average arr_value (ARR only — payment_type IN ('arr','mrr')) from opportunity_products for closed_won opps in period. Return null if &lt; 3 deals.
+
+4. SCL: Average days from created_at to updated_at (when stage=closed_won) for deals closed in period. Per period — NOT all-time average.
+
+FORMULA: PV = (QO * WR * ACV) / SCL
+
+Returns: { qo, wr, acv, scl, velocity, qo_delta, wr_delta, acv_delta, scl_delta, velocity_delta, insufficient_data_flags }</div>
+      </div>
+    </div>
+
+    <div class="prompt-card" id="p18">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">18</span><div style="flex:1;"><div class="pcard-title">Qualified Pipeline logic &amp; QP flag</div><div class="pcard-tags"><span class="tag tag-supabase">Supabase</span><span class="tag tag-logic">Logic</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>QP is evidence-based. The flag only turns on when historical close rate from the QP stage is ≥ configured minimum. Recalculated nightly.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Implement Qualified Pipeline logic.
+
+NEW TABLE: qp_config — id, pipeline_type (unique), qp_stage (default 'solution'), win_rate_minimum numeric default 0.25, lookback_months int default 12. Seed with pipeline_type='new_business' defaults.
+
+QP LOGIC: For each pipeline_type, calculate close rate from qp_stage over lookback_months. If close_rate >= win_rate_minimum AND >= 5 deals have reached qp_stage: set is_qp=true on all open opps at or beyond qp_stage. Otherwise set is_qp=false and show "Uncalibrated" state.
+
+SCHEDULED FUNCTION: pg_cron job nightly to recalculate is_qp on all open opps.
+
+SETTINGS — Rev Ops tab: Per pipeline type: configure qp_stage, win_rate_minimum (% slider), lookback_months. Show calibration status: "Calibrated — X% close rate from Stage 3 (last 12 months, N deals)" or "Uncalibrated — insufficient data (N &lt; 5 deals)". "Recalculate Now" button.
+
+PIPELINE UI: QP threshold stage column gets accent top border and "✦ QP" label. Cards show amber QP badge when is_qp=true. Uncalibrated banner on pipeline page when insufficient data.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card" id="p19">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">19</span><div style="flex:1;"><div class="pcard-title">Overview dashboard</div><div class="pcard-tags"><span class="tag tag-ui">UI</span><span class="tag tag-supabase">Supabase</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>The homepage. Velocity engine from P17 powers the main feature block. Period selector drives all metrics.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Build the Overview dashboard at /.
+
+PAGE HEADER: "Good morning, [first name]." Period selector: This Quarter / Last Quarter / YTD.
+
+VELOCITY BLOCK (full width): Current velocity as large number. Formula in DM Mono: "PV = ( X QO x Y% WR x $Z ACV ) / N days = $RESULT". Four input metrics below with delta indicators. Pipeline type toggle (NB vs Expansion).
+
+STAT CARDS (4): Open Pipeline ACV, Qualified Pipeline ACV, Closed Won QTD, Activities last 7 days.
+
+TWO COLUMNS:
+Left — Recent Activity: last 10 activities (Contact, Type badge, Outcome, When relative). Click navigates to record.
+Right — Top Opportunities: top 5 by ACV (name + QP badge if applicable, Stage, ACV, Close date). Click navigates to opp.
+
+All data fetches use period selector dates as filters.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card" id="p20">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">20</span><div style="flex:1;"><div class="pcard-title">Reporting suite</div><div class="pcard-tags"><span class="tag tag-reporting">Reporting</span><span class="tag tag-supabase">Supabase</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>4 report tabs on /reports. Use Recharts. Global period selector and pipeline type filter drive all tabs.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Build the Reports page at /reports with 4 tabs.
+
+GLOBAL FILTERS (sticky): Period (Q1/Q2/Q3/Q4/YTD/Custom), Pipeline Type (NB/CS/All), Owner.
+
+TAB 1 — Velocity: Velocity metric cards + bar chart of velocity per quarter for last 4 quarters segmented by pipeline type (Recharts BarChart, accent for NB, teal for CS). Per-input trend lines.
+
+TAB 2 — Funnel: Horizontal funnel — each stage as a bar, width proportional to opp count. Show entry count, exit count, conversion rate between stages. Highlight biggest drop-off stage. Split by pipeline type toggle.
+
+TAB 3 — Sources: Three sections (Contact Source, Lead Source, Pipeline Source). Each: DataTable — Source value, Count, Conversion rate, Avg ACV, Total ACV, Avg sales cycle. Sort by Total ACV descending. Top source gets accent left border.
+
+TAB 4 — Activity: Volume bar chart last 8 weeks stacked by type (Recharts). By-user table: total activities, breakdown by type, meetings booked. Outcome distribution donut chart (Recharts PieChart).</div>
+      </div>
+    </div>
+
+    <div class="prompt-card" id="p21">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">21</span><div style="flex:1;"><div class="pcard-title">Velocity scenario planner</div><div class="pcard-tags"><span class="tag tag-ui">UI</span><span class="tag tag-logic">Logic</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>Answers "what levers do I pull?" — all calculation happens client-side in real time as sliders move.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Add a Velocity Scenario Planner below the velocity trend charts in the Velocity report tab.
+
+FOUR SLIDERS: Qualified Opps (1-30, default = current QO), Win Rate (5%-80%, default = current WR), Avg ACV ($5k-$200k step $1k, default = current ACV), Sales Cycle (30-365 days, default = current SCL).
+
+RESULTS: Left — "Current Velocity" large DM Mono accent number. Arrow. Right — "Scenario Velocity" large number (green if higher, coral if lower). Delta % between current and scenario.
+
+INSIGHT BOX (updates as sliders move): Calculate which single input has highest marginal impact from a fixed 10% improvement. Show: "Biggest lever: [Win Rate]. Improving by 10pp adds $X,XXX/qtr."
+
+RESET button returns all sliders to current actual values.</div>
+      </div>
+    </div>
+
+    <!-- PHASE 5 -->
+    <div class="phase-header"><span class="phase-num">Phase 5</span><div><div class="phase-title">Integrations &amp; Admin</div><div class="phase-desc">Xero export, Sybill, settings polish</div></div></div>
+
+    <div class="prompt-card" id="p22">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">22</span><div style="flex:1;"><div class="pcard-title">Xero / cashflow payment schedule export</div><div class="pcard-tags"><span class="tag tag-integration">Integration</span><span class="tag tag-supabase">Supabase</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>Phase 1 of Xero integration — generate structured payment schedule CSV on Closed Won. Full Xero API integration comes later.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Build payment schedule export for Closed Won opportunities.
+
+On Closed Won, generate payment events from opportunity_products based on billing_schedule:
+- "Annual upfront" → one payment on billing_start for full year
+- "Monthly in arrears" → 12 monthly payments
+- "Quarterly" → 4 quarterly payments
+- "50% upfront / 50% on go-live" → two payments: 50% on contract date, 50% on go-live
+- Unknown schedules → single payment on billing_start
+
+Store in new table: payment_schedules (id, opportunity_id, product_line_item_id, payment_date, amount, currency, cashflow_export_tag, payment_number, total_payments, status default 'scheduled').
+
+OPPORTUNITY RECORD (when closed_won): "Payment Schedule" section — table of Date, Product, Amount, Tag, Status. "Export CSV" downloads schedule. CSV format compatible with Xero import: Contact Name, Description, Quantity, Unit Amount, Account Code.
+
+SETTINGS → Integrations tab: cashflow export tag to Xero account code mapping table.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card" id="p23">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">23</span><div style="flex:1;"><div class="pcard-title">Sybill meeting notes webhook</div><div class="pcard-tags"><span class="tag tag-integration">Integration</span><span class="tag tag-supabase">Supabase</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>Sybill POSTs a webhook on meeting completion. Parse it and auto-create an Online Meeting activity on the associated contact and opportunity.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Build a Supabase Edge Function for Sybill meeting note webhooks.
+
+EDGE FUNCTION: /functions/v1/sybill-webhook
+- Verify webhook signature using Sybill signing secret stored in Supabase secrets
+- Extract: meeting title, date/time, duration, attendees (email list), AI summary, action items, transcript URL
+
+ACTIVITY CREATION:
+- activity_type = 'online_meeting', direction = 'outbound'
+- subject = meeting title
+- body = AI summary + "\n\nAction Items:\n" + numbered action items + "\n\nTranscript: [url]"
+- Match attendee emails against contacts.email for contact_id
+- Match against users.email for logged_by
+- Link to most recent open opportunity for matched contact
+
+SETTINGS — Integrations tab — Sybill section: webhook URL (copy), signing secret (copy), last 10 received webhooks with status, test payload button.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card" id="p24">
+      <div class="prompt-card-header" onclick="window.toggle(this)"><span class="pcard-num">24</span><div style="flex:1;"><div class="pcard-title">Global search, bulk actions &amp; QoL polish</div><div class="pcard-tags"><span class="tag tag-ui">UI</span><span class="tag tag-logic">Logic</span></div></div><span class="pcard-chevron">▾</span></div>
+      <div class="pcard-body">
+        <div class="pcard-notes"><div class="pcard-notes-label">Context</div><p>Final polish prompt. Global search, bulk actions, notifications, and empty states.</p></div>
+        <div class="prompt-text"><button class="copy-btn" onclick="window.copyPrompt(this)">Copy</button>Build global search, bulk actions, and quality-of-life improvements.
+
+GLOBAL SEARCH (Cmd+K modal): Searches companies (name), contacts (name, email), leads (title), opportunities (name, company). Results grouped by type. Keyboard navigation (arrows, Enter, Esc). Debounced 300ms. Show last 5 visited records when empty.
+
+BULK ACTIONS on all DataTables: Checkbox column + select-all. Bulk action bar on selection showing count + actions. Companies/Contacts: bulk change Owner, bulk export CSV. Leads: bulk change Stage, Owner, export. Opportunities: bulk change Owner, Stage (gate bypass confirmation).
+
+EMPTY STATES: All list views — geometric CSS illustration, contextual headline, CTA button to create first record.
+
+TOAST NOTIFICATIONS: All CRUD actions. Success: accent left border. Error: coral left border. Auto-dismiss 4s. Manual dismiss.
+
+RECORD BREADCRUMBS: All record detail pages show breadcrumb at top of left panel linking back to list.
+
+RECORD TIMESTAMPS: "Last updated X ago" on all records, exact datetime on hover.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════ POSTMARK PANEL -->
+<div class="panel" id="panel-postmark">
+<div class="pm-wrap">
+  <div class="pm-page-title">Postmark Setup</div>
+  <div class="pm-page-sub">Email capture infrastructure — configuration reference &amp; operational guide</div>
+
+  <div class="pm-section">
+    <div class="pm-h2">How it works</div>
+    <p class="pm-p">When a Wunse CRM user sends an email and BCCs their personal CRM address, that email is automatically captured and logged as an activity on the relevant contact's record. No manual logging required.</p>
+    <div class="pm-flow">
+      <div class="pm-flow-node">User sends email<small>Gmail / Outlook</small></div>
+      <div class="pm-flow-arrow">→</div>
+      <div class="pm-flow-node">BCC address<small>crm-u-xxx&#64;mail.wunse.com.au</small></div>
+      <div class="pm-flow-arrow">→</div>
+      <div class="pm-flow-node">Postmark<small>Receives &amp; parses</small></div>
+      <div class="pm-flow-arrow">→</div>
+      <div class="pm-flow-node">Edge Function<small>Supabase webhook</small></div>
+      <div class="pm-flow-arrow">→</div>
+      <div class="pm-flow-node">Activity logged<small>Contact timeline</small></div>
+    </div>
+  </div>
+
+  <div class="pm-section">
+    <div class="pm-h2">BCC address format</div>
+    <p class="pm-p">Every CRM user gets a unique BCC address generated automatically on signup. It identifies which user sent the email.</p>
+    <div class="pm-code">crm-u-{8-char-uuid}&#64;mail.wunse.com.au</div>
+    <p class="pm-p">Each contact also gets a unique BCC address for precise attribution:</p>
+    <div class="pm-code">crm-c-{8-char-uuid}&#64;mail.wunse.com.au</div>
+    <p class="pm-p">Users find their personal BCC address under Settings → Profile. Save it as a contact in Gmail or Outlook named "Wunse CRM Log" so it autocompletes in one keystroke.</p>
+    <div class="pm-callout">The BCC address only needs to be added once per email thread. Postmark captures all emails sent to that address regardless of which contact they're sent to.</div>
+  </div>
+
+  <div class="pm-section">
+    <div class="pm-h2">Postmark account configuration</div>
+    <div class="pm-ref">
+      <div class="pm-ref-header">Account details</div>
+      <div class="pm-ref-row"><span class="pm-ref-key">Platform</span><span class="pm-ref-val">postmarkapp.com</span></div>
+      <div class="pm-ref-row"><span class="pm-ref-key">Server name</span><span class="pm-ref-val">Wunse CRM (Live)</span></div>
+      <div class="pm-ref-row"><span class="pm-ref-key">Stream type</span><span class="pm-ref-val">Default Inbound Stream</span></div>
+      <div class="pm-ref-row"><span class="pm-ref-key">Inbound email address</span><span class="pm-ref-val">8c641faf882cfe639181da8e60ec6157&#64;inbound.postmarkapp.com</span></div>
+      <div class="pm-ref-row"><span class="pm-ref-key">Inbound domain</span><span class="pm-ref-val">mail.wunse.com.au</span></div>
+      <div class="pm-ref-row"><span class="pm-ref-key">Webhook URL</span><span class="pm-ref-val">iscttobnkwhbrdzuaypp.supabase.co/functions/v1/bcc-email-capture?token=***</span></div>
+    </div>
+    <div class="pm-callout warn">The webhook URL contains the BCC_WEBHOOK_SECRET as a query parameter. Never share the full URL publicly. The secret is stored in Supabase Edge Function secrets.</div>
+  </div>
+
+  <div class="pm-section">
+    <div class="pm-h2">DNS configuration — GoDaddy</div>
+    <p class="pm-p">One MX record on wunse.com.au routes all email sent to anything&#64;mail.wunse.com.au through Postmark.</p>
+    <div class="pm-ref">
+      <div class="pm-ref-header">GoDaddy DNS record</div>
+      <div class="pm-ref-row"><span class="pm-ref-key">Type</span><span class="pm-ref-val">MX</span></div>
+      <div class="pm-ref-row"><span class="pm-ref-key">Name</span><span class="pm-ref-val">mail</span></div>
+      <div class="pm-ref-row"><span class="pm-ref-key">Value</span><span class="pm-ref-val">inbound.postmarkapp.com</span></div>
+      <div class="pm-ref-row"><span class="pm-ref-key">Priority</span><span class="pm-ref-val">10</span></div>
+      <div class="pm-ref-row"><span class="pm-ref-key">TTL</span><span class="pm-ref-val">1 hour</span></div>
+    </div>
+  </div>
+
+  <div class="pm-section">
+    <div class="pm-h2">How the Edge Function processes emails</div>
+    <ol class="pm-steps">
+      <li>Validates the token in the webhook URL against BCC_WEBHOOK_SECRET in Supabase secrets. Returns 401 if no match. Also accepts a valid Supabase JWT in the Authorization header (used by the CRM test button).</li>
+      <li>Scans all recipient addresses (To, CC, BCC) for a match against users.bcc_address to identify which CRM user sent the email.</li>
+      <li>Matches the sender's email address against contacts.email to identify the contact and their company.</li>
+      <li>Checks for any open lead or opportunity associated with that contact to link the activity.</li>
+      <li>Creates an activity record — type: email, direction: outbound, subject, body, is_bcc_captured: true, logged_by, contact_id, company_id, opportunity_id if found.</li>
+      <li>Returns 200 with match status. Returns 200 with "no_match" if no BCC address recognised — Postmark requires a 200 response regardless of outcome.</li>
+    </ol>
+  </div>
+
+  <div class="pm-section">
+    <div class="pm-h2">Monitoring &amp; troubleshooting</div>
+    <p class="pm-p">The CRM has a built-in capture log at Settings → Email Capture showing the last 50 BCC-captured emails with subject, matched user, matched contact, and timestamp.</p>
+    <p class="pm-p">In Postmark, the Activity tab on the Default Inbound Stream shows every email received and whether the webhook returned 200 or an error. If emails are failing, check:</p>
+    <ul class="pm-ul">
+      <li>The webhook URL in Postmark still contains the correct secret token</li>
+      <li>BCC_WEBHOOK_SECRET in Supabase secrets has not been rotated without updating Postmark</li>
+      <li>The Edge Function is deployed — check Supabase → Edge Functions for deployment status</li>
+      <li>The contact's email address exists as a contact record in the CRM — unmatched emails return no_match and are not logged</li>
+      <li>The BCC address domain is mail.wunse.com.au (not mail.wunse.com) — check Settings → Profile</li>
+    </ul>
+    <div class="pm-callout success">To test end-to-end: send any email to a contact who exists in the CRM, BCC crm-u-xxxxx&#64;mail.wunse.com.au, wait 30 seconds, check the contact's activity timeline.</div>
+  </div>
+
+  <div class="pm-section">
+    <div class="pm-h2">Onboarding a new team member</div>
+    <p class="pm-p">When a new user is invited via Settings → Users, their BCC address is automatically generated on signup. They need to:</p>
+    <ul class="pm-ul">
+      <li>Go to Settings → Profile and copy their BCC address</li>
+      <li>Save it as a contact in Gmail or Outlook — suggest naming it "Wunse CRM Log"</li>
+      <li>BCC it on any client email they want logged in the CRM</li>
+    </ul>
+    <p class="pm-p">No additional DNS or Postmark configuration is required for new users. The existing infrastructure handles all addresses on the mail.wunse.com.au domain automatically.</p>
+  </div>
+
+</div>
+</div>
+
+<script>
+window.showTab = function(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+window.toggle = function(header) {
+  const card = header.closest('.prompt-card');
+  card.classList.toggle('open');
+}
+
+window.copyPrompt = function(btn) {
+  const promptText = btn.closest('.prompt-text').innerText.replace('Copy\n', '').trim();
+  navigator.clipboard.writeText(promptText).then(() => {
+    btn.textContent = 'Copied ✓';
+    btn.style.color = 'var(--accent)';
+    setTimeout(() => { btn.textContent = 'Copy'; btn.style.color = ''; }, 2000);
+  });
+}
+
+const links = document.querySelectorAll('.prompt-link');
+links.forEach(link => {
+  link.addEventListener('click', function() {
+    links.forEach(l => l.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
